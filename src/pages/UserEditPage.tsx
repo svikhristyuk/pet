@@ -8,5 +8,5 @@ export function UserEditPage() {
   const { users } = useAppContext();
   const user = users.find((user) => user.id === userId);
 
-  return <UserForm user={user} />;
+  return <UserForm title="Edit User" user={user} />;
 }

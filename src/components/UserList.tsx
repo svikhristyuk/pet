@@ -10,7 +10,9 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  IconButton,
 } from "@material-ui/core";
+import { PersonAdd } from "@material-ui/icons";
 import { useAppContext } from "../AppContext";
 
 export function UserList() {
@@ -21,6 +23,12 @@ export function UserList() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">Users</Typography>
+
+          <Box flexGrow={1} />
+
+          <IconButton edge="end" color="inherit" component={Link} to="/create">
+            <PersonAdd />
+          </IconButton>
         </Toolbar>
       </AppBar>
 

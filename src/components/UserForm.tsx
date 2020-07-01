@@ -22,10 +22,11 @@ import { UserFormCard } from "./UserFormCard";
 import { UserFormField } from "./UserFormField";
 
 interface UserFormParams {
+  title: string;
   user?: User;
 }
 
-export function UserForm({ user }: UserFormParams) {
+export function UserForm({ title, user }: UserFormParams) {
   return (
     <Box height="100%" width="100%" display="flex" flexDirection="column">
       <AppBar position="static" color="inherit">
@@ -33,7 +34,8 @@ export function UserForm({ user }: UserFormParams) {
           <IconButton edge="start" component={Link} to="/">
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6">Edit User</Typography>
+
+          <Typography variant="h6">{title}</Typography>
         </Toolbar>
       </AppBar>
 
