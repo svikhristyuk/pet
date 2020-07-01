@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AppContextProvider } from "./AppContext";
 import { Layout } from "./components/Layout";
 import { UserList } from "./components/UserList";
-import { UserForm } from "./components/UserForm";
-import { UserNotSelected } from "./components/UserNotSelected";
+import { UserEditPage } from "./pages/UserEditPage";
+import { UserNotSelectedPage } from "./pages/UserNotSelectedPage";
 
 function App() {
   return (
@@ -14,12 +14,12 @@ function App() {
           list={UserList}
           details={
             <Switch>
-              <Route path="/:id">
-                <UserForm />
+              <Route path="/:userId">
+                <UserEditPage />
               </Route>
 
               <Route path="/">
-                <UserNotSelected />
+                <UserNotSelectedPage />
               </Route>
             </Switch>
           }

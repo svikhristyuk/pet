@@ -1,3 +1,5 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -15,12 +17,15 @@ import {
   Web,
   ArrowBack,
 } from "@material-ui/icons";
-import React from "react";
+import { User } from "../api";
 import { UserFormCard } from "./UserFormCard";
 import { UserFormField } from "./UserFormField";
-import { Link } from "react-router-dom";
 
-export function UserForm() {
+interface UserFormParams {
+  user?: User;
+}
+
+export function UserForm({ user }: UserFormParams) {
   return (
     <Box height="100%" width="100%" display="flex" flexDirection="column">
       <AppBar position="static" color="inherit">
