@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -31,7 +32,7 @@ export function UserList() {
       >
         <List>
           {users.map(({ id, name }) => (
-            <ListItem button key={id}>
+            <ListItem button key={id} component={Link} to={`/${id}`}>
               <ListItemAvatar>
                 <Avatar>{name[0]}</Avatar>
               </ListItemAvatar>

@@ -1,4 +1,11 @@
-import { AppBar, Box, Grid, Toolbar, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  Grid,
+  Toolbar,
+  Typography,
+  IconButton,
+} from "@material-ui/core";
 import {
   Business,
   Email,
@@ -6,16 +13,21 @@ import {
   Person,
   Phone,
   Web,
+  ArrowBack,
 } from "@material-ui/icons";
 import React from "react";
 import { UserFormCard } from "./UserFormCard";
 import { UserFormField } from "./UserFormField";
+import { Link } from "react-router-dom";
 
 export function UserForm() {
   return (
     <Box height="100%" width="100%" display="flex" flexDirection="column">
       <AppBar position="static" color="inherit">
         <Toolbar>
+          <IconButton edge="start" component={Link} to="/">
+            <ArrowBack />
+          </IconButton>
           <Typography variant="h6">Edit User</Typography>
         </Toolbar>
       </AppBar>
