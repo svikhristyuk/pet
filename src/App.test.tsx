@@ -4,8 +4,9 @@ import App from "./App";
 
 test("renders learn react link", () => {
   const { getByText } = render(<App />);
-  const list = getByText("List");
-  const Details = getByText("Details");
+  const list = getByText("Users");
+  const details = getByText("Details");
+
   expect(list).toBeInTheDocument();
-  expect(Details).toBeInTheDocument();
+  expect(details).toBeInTheDocument();
 });

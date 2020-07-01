@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Box, CssBaseline, Divider } from "@material-ui/core";
+import { Box, CssBaseline } from "@material-ui/core";
 
 interface LayoutProps {
   list: ReactNode;
@@ -11,11 +11,9 @@ export function Layout({ list, details }: LayoutProps) {
     <Box height="100vh" display="flex">
       <CssBaseline />
 
-      <Box bgcolor="#fff" width="300px" height="100%">
+      <Box bgcolor="#fff" height="100%">
         {list}
       </Box>
-
-      <Divider orientation="vertical" />
 
       <Box flexGrow="1" height="100%">
         {details}
