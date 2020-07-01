@@ -5,7 +5,7 @@ import App from "./App";
 test("renders learn react link", () => {
   const { getByText } = render(<App />);
   const list = getByText("Users");
-  const details = getByText("Details");
+  const details = getByText("Edit User");
 
   expect(list).toBeInTheDocument();
   expect(details).toBeInTheDocument();
