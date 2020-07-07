@@ -5,7 +5,8 @@ import React, {
   useContext,
   PropsWithChildren,
 } from "react";
-import { fetchUsers, User } from "./api";
+import { User } from "./typings";
+import { fetchUsers } from "./api";
 
 interface Context {
   users: User[];
