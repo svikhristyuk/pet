@@ -4,9 +4,9 @@ import { useAppContext } from "../AppContext";
 import { UserForm } from "../components/UserForm";
 
 export function UserEditPage() {
-  const { userId } = useParams();
+  const { userId } = useParams<{ userId: string }>();
   const { users } = useAppContext();
-  const user = users.find((user) => user.id === userId);
+  const user = users.find((user) => user.id === Number(userId));
 
-  return <UserForm title="Edit User" user={user} />;
+  return user ? <UserForm title="Edit User" user={user} /> : <>Loading</>;
 }

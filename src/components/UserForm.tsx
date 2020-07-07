@@ -1,4 +1,5 @@
 import React from "react";
+import { Formik } from "formik";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -28,50 +29,74 @@ interface UserFormParams {
 
 export function UserForm({ title, user }: UserFormParams) {
   return (
-    <Box height="100%" width="100%" display="flex" flexDirection="column">
-      <AppBar position="static" color="inherit">
-        <Toolbar>
-          <IconButton edge="start" component={Link} to="/">
-            <ArrowBack />
-          </IconButton>
+    <Formik
+      initialValues={user || {}}
+      enableReinitialize={true}
+      onSubmit={console.log}
+    >
+      {({ handleSubmit }) => (
+        <Box
+          height="100%"
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          component="form"
+          // TODO: Fix typings
+          onSubmit={handleSubmit as any}
+        >
+          <AppBar position="static" color="inherit">
+            <Toolbar>
+              <IconButton edge="start" component={Link} to="/">
+                <ArrowBack />
+              </IconButton>
 
-          <Typography variant="h6">{title}</Typography>
-        </Toolbar>
-      </AppBar>
+              <Typography variant="h6">{title}</Typography>
+            </Toolbar>
+          </AppBar>
 
-      <Box p={2} flexGrow="1" overflow="auto">
-        <Grid container spacing={2}>
-          <Grid item lg={4} sm={6} xs={12}>
-            <UserFormCard title="General Info">
-              <UserFormField icon={Person} label="Name" />
+          <Box p={2} flexGrow="1" overflow="auto">
+            <Grid container spacing={2}>
+              <Grid item lg={4} sm={6} xs={12}>
+                <UserFormCard title="General Info">
+                  <UserFormField icon={Person} label="Name" name="name" />
 
-              <UserFormField icon={Email} label="Email" />
+                  <UserFormField icon={Email} label="Email" name="email" />
 
-              <UserFormField icon={Phone} label="Phone" />
+                  <UserFormField icon={Phone} label="Phone" name="phone" />
 
-              <UserFormField icon={Web} label="Website" />
-            </UserFormCard>
-          </Grid>
+                  <UserFormField icon={Web} label="Website" name="website" />
+                </UserFormCard>
+              </Grid>
 
-          <Grid item lg={4} sm={6} xs={12}>
-            <UserFormCard title="Address">
-              <UserFormField icon={LocationCity} label="City" />
+              <Grid item lg={4} sm={6} xs={12}>
+                <UserFormCard title="Address">
+                  <UserFormField
+                    icon={LocationCity}
+                    label="City"
+                    name="address.city"
+                  />
 
-              <UserFormField label="Street" />
+                  <UserFormField label="Street" name="address.street" />
 
-              <UserFormField label="Suite" />
+                  <UserFormField label="Suite" name="address.suite" />
 
-              <UserFormField label="ZIP" />
-            </UserFormCard>
-          </Grid>
+                  <UserFormField label="ZIP" name="address.zipcode" />
+                </UserFormCard>
+              </Grid>
 
-          <Grid item lg={4} sm={6} xs={12}>
-            <UserFormCard title="Company">
-              <UserFormField icon={Business} label="Name" />
-            </UserFormCard>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+              <Grid item lg={4} sm={6} xs={12}>
+                <UserFormCard title="Company">
+                  <UserFormField
+                    icon={Business}
+                    label="Name"
+                    name="company.name"
+                  />
+                </UserFormCard>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      )}
+    </Formik>
   );
 }
