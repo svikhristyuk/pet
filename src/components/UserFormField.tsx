@@ -1,5 +1,5 @@
 import React from "react";
-import { useField } from "formik";
+import { useFormikContext, useField } from "formik";
 import { Box, TextField, StandardTextFieldProps } from "@material-ui/core";
 import { SvgIconComponent } from "@material-ui/icons";
 
@@ -10,6 +10,7 @@ interface UserFormField extends StandardTextFieldProps {
 }
 
 export function UserFormField({ icon: Icon, label, name }: UserFormField) {
+  const { isSubmitting } = useFormikContext();
   const [textFieldProps] = useField({ name });
   // If value `undefined` by default, React will throw an error saying
   // that you have changed an input from uncontrolled to controlled.
@@ -25,6 +26,7 @@ export function UserFormField({ icon: Icon, label, name }: UserFormField) {
         fullWidth
         label={label}
         value={value}
+        disabled={isSubmitting}
         {...restTextFieldProps}
       />
     </Box>
