@@ -6,11 +6,13 @@ import React, {
   PropsWithChildren,
 } from "react";
 import { User } from "./typings";
-import { fetchUsers } from "./api";
+import * as usersApi from "./api";
 
 interface Context {
   users: User[];
   isFetchingUsers: boolean;
+  addUser: (user: User) => void;
+  replaceUser: (user: User) => void;
 }
 
 const AppContext = createContext<Context | null>(null);
@@ -21,12 +23,29 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
 
   useEffect(() => {
     setIsFetchingUsers(true);
-    fetchUsers()
+    usersApi
+      .fetchUsers()
       .then(setUsers)
       .finally(() => setIsFetchingUsers(false));
   }, []);
 
-  const value = { users, isFetchingUsers };
+  const addUser = (user: User) => {
+    setUsers([...users, user]);
+  };
+
+  const replaceUser = (userForReplace: User) => {
+    const updatedUsers = users.map((user) =>
+      user.id === userForReplace.id ? userForReplace : user
+    );
+    setUsers(updatedUsers);
+  };
+
+  const value = {
+    users,
+    isFetchingUsers,
+    addUser,
+    replaceUser,
+  };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

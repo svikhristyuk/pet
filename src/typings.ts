@@ -20,3 +20,5 @@ export interface User {
   website: string;
   company: Company;
 }
+
+export type UserFormValues = Partial<User>;

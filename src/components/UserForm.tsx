@@ -8,6 +8,7 @@ import {
   Toolbar,
   Typography,
   IconButton,
+  Button,
 } from "@material-ui/core";
 import {
   Business,
@@ -18,23 +19,24 @@ import {
   Web,
   ArrowBack,
 } from "@material-ui/icons";
-import { User } from "../api";
+import { User, UserFormValues } from "../typings";
 import { UserFormCard } from "./UserFormCard";
 import { UserFormField } from "./UserFormField";
 
 interface UserFormParams {
   title: string;
   user?: User;
+  onSubmit: (user: UserFormValues) => void;
 }
 
-export function UserForm({ title, user }: UserFormParams) {
+export function UserForm({ title, user, onSubmit }: UserFormParams) {
   return (
     <Formik
       initialValues={user || {}}
       enableReinitialize={true}
-      onSubmit={console.log}
+      onSubmit={onSubmit}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, isSubmitting }) => (
         <Box
           height="100%"
           width="100%"
@@ -51,6 +53,17 @@ export function UserForm({ title, user }: UserFormParams) {
               </IconButton>
 
               <Typography variant="h6">{title}</Typography>
+
+              <Box flexGrow={1} />
+
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Save
+              </Button>
             </Toolbar>
           </AppBar>
 

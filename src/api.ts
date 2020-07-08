@@ -1,4 +1,4 @@
-import { User } from "./typings";
+import { User, UserFormValues } from "./typings";
 
 const apiUrl = "https://jsonplaceholder.typicode.com";
 const usersEndpoint = `${apiUrl}/users`;
@@ -15,14 +15,17 @@ export function fetchUser(id: User["id"]): Promise<User> {
   return fetch(`${usersEndpoint}/${id}`).then(handleResponse);
 }
 
-export function updateUser(user: User): Promise<User> {
-  return fetch(`${usersEndpoint}/${user.id}`, {
+export function updateUser(
+  userId: string,
+  userValues: UserFormValues
+): Promise<User> {
+  return fetch(`${usersEndpoint}/${userId}`, {
     method: "PUT",
-    body: JSON.stringify(user),
+    body: JSON.stringify(userValues),
   }).then(handleResponse);
 }
 
-export function createUser(user: User): Promise<User> {
+export function createUser(user: UserFormValues): Promise<User> {
   return fetch(usersEndpoint, {
     method: "POST",
     body: JSON.stringify(user),
