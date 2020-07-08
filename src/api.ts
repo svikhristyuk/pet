@@ -32,7 +32,7 @@ export function createUser(user: UserFormValues): Promise<User> {
   }).then(handleResponse);
 }
 
-export function removeUser(user: User): Promise<User> {
+export function deleteUser(user: User): Promise<User> {
   return fetch(`${usersEndpoint}/${user.id}`, {
     method: "DELETE",
     body: JSON.stringify(user),

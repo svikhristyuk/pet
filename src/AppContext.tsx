@@ -5,6 +5,7 @@ import React, {
   useContext,
   PropsWithChildren,
 } from "react";
+import { useHistory } from "react-router-dom";
 import { User } from "./typings";
 import * as usersApi from "./api";
 
@@ -13,13 +14,17 @@ interface Context {
   isFetchingUsers: boolean;
   addUser: (user: User) => void;
   replaceUser: (user: User) => void;
+  deleteUser: (userForDelete: User) => void;
+  isDeletingUser: boolean;
 }
 
 const AppContext = createContext<Context | null>(null);
 
 export function AppContextProvider({ children }: PropsWithChildren<{}>) {
+  const history = useHistory();
   const [users, setUsers] = useState<User[]>([]);
   const [isFetchingUsers, setIsFetchingUsers] = useState(false);
+  const [isDeletingUser, setIsDeletingUser] = useState(false);
 
   useEffect(() => {
     setIsFetchingUsers(true);
@@ -40,11 +45,31 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
     setUsers(updatedUsers);
   };
 
+  const deleteUser = (userForDelete: User) => {
+    setIsDeletingUser(true);
+
+    usersApi
+      .deleteUser(userForDelete)
+      .then(() => {
+        const filteredUsers = users.filter(
+          (user) => user.id !== userForDelete.id
+        );
+        setUsers(filteredUsers);
+        history.push("/");
+      })
+      .catch(console.error)
+      .finally(() => {
+        setIsDeletingUser(false);
+      });
+  };
+
   const value = {
     users,
     isFetchingUsers,
     addUser,
     replaceUser,
+    deleteUser,
+    isDeletingUser,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

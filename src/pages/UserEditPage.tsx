@@ -7,7 +7,7 @@ import { UserForm } from "../components/UserForm";
 
 export function UserEditPage() {
   const { userId } = useParams<{ userId: string }>();
-  const { users, replaceUser } = useAppContext();
+  const { users, replaceUser, deleteUser, isDeletingUser } = useAppContext();
   const user = users.find((user) => user.id === Number(userId));
 
   const handleSubmit = (userValues: UserFormValues) => {
@@ -16,5 +16,13 @@ export function UserEditPage() {
       .catch(console.error);
   };
 
-  return <UserForm title="Edit User" user={user} onSubmit={handleSubmit} />;
+  return (
+    <UserForm
+      title="Edit User"
+      user={user}
+      onSubmit={handleSubmit}
+      onDelete={deleteUser}
+      isDeleting={isDeletingUser}
+    />
+  );
 }

@@ -27,9 +27,17 @@ interface UserFormParams {
   title: string;
   user?: User;
   onSubmit: (user: UserFormValues) => void;
+  onDelete?: (user: User) => void;
+  isDeleting?: boolean;
 }
 
-export function UserForm({ title, user, onSubmit }: UserFormParams) {
+export function UserForm({
+  title,
+  user,
+  onSubmit,
+  onDelete,
+  isDeleting,
+}: UserFormParams) {
   return (
     <Formik
       initialValues={user || {}}
@@ -54,16 +62,33 @@ export function UserForm({ title, user, onSubmit }: UserFormParams) {
 
               <Typography variant="h6">{title}</Typography>
 
-              <Box flexGrow={1} />
+              <Box flexGrow={1}>
+                <Grid container spacing={2} justify="flex-end">
+                  {user && onDelete && (
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        color="default"
+                        disabled={isSubmitting || isDeleting}
+                        onClick={() => onDelete(user)}
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
+                  )}
 
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Save
-              </Button>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
             </Toolbar>
           </AppBar>
 
