@@ -7,14 +7,14 @@ import React, {
 } from "react";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { User } from "./typings";
+import { User, UserFormValues } from "./typings";
 import * as usersApi from "./api";
 
 interface Context {
   users: User[];
   isFetchingUsers: boolean;
-  addUser: (user: User) => void;
-  replaceUser: (user: User) => void;
+  createUser: (userFormValues: UserFormValues) => void;
+  updateUser: (userId: string, userFormValues: UserFormValues) => void;
   deleteUser: (userForDelete: User) => void;
   isDeletingUser: boolean;
 }
@@ -36,15 +36,27 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
       .finally(() => setIsFetchingUsers(false));
   }, []);
 
-  const addUser = (user: User) => {
-    setUsers([...users, user]);
+  const createUser = (userFormValues: UserFormValues) => {
+    return usersApi
+      .createUser(userFormValues)
+      .then((createdUser) => {
+        setUsers([...users, { ...userFormValues, ...createdUser }]);
+        enqueueSnackbar("User created");
+      })
+      .catch(console.error);
   };
 
-  const replaceUser = (userForReplace: User) => {
-    const updatedUsers = users.map((user) =>
-      user.id === userForReplace.id ? userForReplace : user
-    );
-    setUsers(updatedUsers);
+  const updateUser = (userId: string, userFormValues: UserFormValues) => {
+    return usersApi
+      .updateUser(userId, userFormValues)
+      .then(({ id }) => {
+        const updatedUsers = users.map((user) =>
+          user.id === id ? { ...user, ...userFormValues } : user
+        );
+        setUsers(updatedUsers);
+        enqueueSnackbar("User updated");
+      })
+      .catch(console.error);
   };
 
   const deleteUser = (userForDelete: User) => {
@@ -69,8 +81,8 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
   const value = {
     users,
     isFetchingUsers,
-    addUser,
-    replaceUser,
+    createUser,
+    updateUser,
     deleteUser,
     isDeletingUser,
   };

@@ -17,18 +17,18 @@ export function fetchUser(id: User["id"]): Promise<User> {
 
 export function updateUser(
   userId: string,
-  userValues: UserFormValues
+  userFormValues: UserFormValues
 ): Promise<User> {
   return fetch(`${usersEndpoint}/${userId}`, {
     method: "PUT",
-    body: JSON.stringify(userValues),
+    body: JSON.stringify(userFormValues),
   }).then(handleResponse);
 }
 
-export function createUser(user: UserFormValues): Promise<User> {
+export function createUser(userFormValues: UserFormValues): Promise<User> {
   return fetch(usersEndpoint, {
     method: "POST",
-    body: JSON.stringify(user),
+    body: JSON.stringify(userFormValues),
   }).then(handleResponse);
 }
 
