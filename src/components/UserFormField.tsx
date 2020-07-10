@@ -9,9 +9,9 @@ interface UserFormField extends StandardTextFieldProps {
   name: string;
 }
 
-export function UserFormField({ icon: Icon, label, name }: UserFormField) {
+export function UserFormField({ icon: Icon, name, ...props }: UserFormField) {
   const { isSubmitting } = useFormikContext();
-  const [textFieldProps] = useField({ name });
+  const [textFieldProps] = useField(name);
   // If value `undefined` by default, React will throw an error saying
   // that you have changed an input from uncontrolled to controlled.
   const { value = "", ...restTextFieldProps } = textFieldProps;
@@ -24,9 +24,9 @@ export function UserFormField({ icon: Icon, label, name }: UserFormField) {
 
       <TextField
         fullWidth
-        label={label}
         value={value}
         disabled={isSubmitting}
+        {...props}
         {...restTextFieldProps}
       />
     </Box>

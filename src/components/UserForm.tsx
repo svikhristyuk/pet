@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -44,15 +44,13 @@ export function UserForm({
       enableReinitialize={true}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit, isSubmitting }) => (
+      {({ isSubmitting }) => (
         <Box
           height="100%"
           width="100%"
           display="flex"
           flexDirection="column"
-          component="form"
-          // TODO: Fix typings
-          onSubmit={handleSubmit as any}
+          component={Form}
         >
           <AppBar position="static" color="inherit">
             <Toolbar>
@@ -96,9 +94,19 @@ export function UserForm({
             <Grid container spacing={2}>
               <Grid item lg={4} sm={6} xs={12}>
                 <UserFormCard title="General Info">
-                  <UserFormField icon={Person} label="Name" name="name" />
+                  <UserFormField
+                    icon={Person}
+                    label="Name"
+                    name="name"
+                    required
+                  />
 
-                  <UserFormField icon={Email} label="Email" name="email" />
+                  <UserFormField
+                    icon={Email}
+                    label="Email"
+                    name="email"
+                    type="email"
+                  />
 
                   <UserFormField icon={Phone} label="Phone" name="phone" />
 
