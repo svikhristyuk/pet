@@ -6,6 +6,7 @@ import React, {
   PropsWithChildren,
 } from "react";
 import { useHistory } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import { User } from "./typings";
 import * as usersApi from "./api";
 
@@ -22,6 +23,7 @@ const AppContext = createContext<Context | null>(null);
 
 export function AppContextProvider({ children }: PropsWithChildren<{}>) {
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const [users, setUsers] = useState<User[]>([]);
   const [isFetchingUsers, setIsFetchingUsers] = useState(false);
   const [isDeletingUser, setIsDeletingUser] = useState(false);
@@ -55,6 +57,7 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
           (user) => user.id !== userForDelete.id
         );
         setUsers(filteredUsers);
+        enqueueSnackbar("User deleted");
         history.push("/");
       })
       .catch(console.error)

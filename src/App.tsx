@@ -1,4 +1,5 @@
 import React from "react";
+import { SnackbarProvider } from "notistack";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AppContextProvider } from "./AppContext";
 import { Layout } from "./components/Layout";
@@ -9,28 +10,33 @@ import { UserNotSelectedPage } from "./pages/UserNotSelectedPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppContextProvider>
-        <Layout
-          list={UserList}
-          details={
-            <Switch>
-              <Route path="/create">
-                <UserCreatePage />
-              </Route>
+    <SnackbarProvider
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      variant="success"
+    >
+      <BrowserRouter>
+        <AppContextProvider>
+          <Layout
+            list={UserList}
+            details={
+              <Switch>
+                <Route path="/create">
+                  <UserCreatePage />
+                </Route>
 
-              <Route path="/:userId">
-                <UserEditPage />
-              </Route>
+                <Route path="/:userId">
+                  <UserEditPage />
+                </Route>
 
-              <Route path="/">
-                <UserNotSelectedPage />
-              </Route>
-            </Switch>
-          }
-        />
-      </AppContextProvider>
-    </BrowserRouter>
+                <Route path="/">
+                  <UserNotSelectedPage />
+                </Route>
+              </Switch>
+            }
+          />
+        </AppContextProvider>
+      </BrowserRouter>
+    </SnackbarProvider>
   );
 }
 
