@@ -42,6 +42,7 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
       .then((createdUser) => {
         setUsers([...users, { ...userFormValues, ...createdUser }]);
         enqueueSnackbar("User created");
+        history.push(`/${createdUser.id}`);
       })
       .catch(console.error);
   };
