@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -13,10 +13,11 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
-import { useAppContext } from "../AppContext";
+import { useUsersContext } from "../UsersContex";
 
 export function UserList() {
-  const { users } = useAppContext();
+  const { users } = useUsersContext();
+  const { path } = useRouteMatch();
 
   return (
     <Box display="flex" flexDirection="column" width="300px" height="100%">
@@ -26,7 +27,13 @@ export function UserList() {
 
           <Box flexGrow={1} />
 
-          <IconButton edge="end" color="inherit" component={Link} to="/create">
+          <IconButton
+            edge="end"
+            color="inherit"
+            component={Link}
+            to={`${path}/create`}
+            data-testid="users-addButton"
+          >
             <PersonAdd />
           </IconButton>
         </Toolbar>
@@ -38,14 +45,20 @@ export function UserList() {
         borderRight="1px solid rgba(0, 0, 0, 0.12)"
         bgcolor="#fff"
       >
-        <List>
+        <List data-testid="users-list">
           {users.map(({ id, name }) => (
-            <ListItem button key={id} component={Link} to={`/${id}`}>
-              <ListItemAvatar>
+            <ListItem
+              button
+              key={id}
+              component={Link}
+              to={`${path}/${id}`}
+              data-testid="users-list-item"
+            >
+              <ListItemAvatar data-testid="users-list-item-avatar">
                 <Avatar>{name[0]}</Avatar>
               </ListItemAvatar>
 
-              <ListItemText>
+              <ListItemText data-testid="users-list-item-name">
                 <Box
                   whiteSpace="nowrap"
                   overflow="hidden"

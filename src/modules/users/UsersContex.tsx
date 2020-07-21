@@ -1,48 +1,43 @@
 import React, {
-  useEffect,
   useState,
   createContext,
   useContext,
   PropsWithChildren,
+  useEffect,
 } from "react";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { User, UserFormValues } from "./typings";
-import * as usersApi from "./api";
+import { User, UserFormValues } from "../../typings";
+import * as usersApi from "../../api";
 
 interface Context {
   users: User[];
-  isFetchingUsers: boolean;
+  fetchUsers: () => void;
   createUser: (userFormValues: UserFormValues) => void;
   updateUser: (userId: string, userFormValues: UserFormValues) => void;
   deleteUser: (userForDelete: User) => void;
   isDeletingUser: boolean;
 }
 
-const AppContext = createContext<Context | null>(null);
+const UsersContext = createContext<Context | null>(null);
 
-export function AppContextProvider({ children }: PropsWithChildren<{}>) {
+export function UsersContextProvider({ children }: PropsWithChildren<{}>) {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const [users, setUsers] = useState<User[]>([]);
-  const [isFetchingUsers, setIsFetchingUsers] = useState(false);
   const [isDeletingUser, setIsDeletingUser] = useState(false);
 
-  useEffect(() => {
-    setIsFetchingUsers(true);
-    usersApi
-      .fetchUsers()
-      .then(setUsers)
-      .finally(() => setIsFetchingUsers(false));
-  }, []);
+  const fetchUsers = () => {
+    return usersApi.fetchUsers().then(setUsers).catch(console.error);
+  };
 
   const createUser = (userFormValues: UserFormValues) => {
     return usersApi
       .createUser(userFormValues)
       .then((createdUser) => {
-        setUsers([...users, { ...userFormValues, ...createdUser }]);
+        setUsers([{ ...userFormValues, ...createdUser }, ...users]);
         enqueueSnackbar("User created");
-        history.push(`/${createdUser.id}`);
+        history.push(`/users/${createdUser.id}`);
       })
       .catch(console.error);
   };
@@ -71,7 +66,7 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
         );
         setUsers(filteredUsers);
         enqueueSnackbar("User deleted");
-        history.push("/");
+        history.push("/users");
       })
       .catch(console.error)
       .finally(() => {
@@ -81,21 +76,27 @@ export function AppContextProvider({ children }: PropsWithChildren<{}>) {
 
   const value = {
     users,
-    isFetchingUsers,
+    fetchUsers,
     createUser,
     updateUser,
     deleteUser,
     isDeletingUser,
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  return (
+    <UsersContext.Provider value={value}>{children}</UsersContext.Provider>
+  );
 }
 
-export function useAppContext() {
-  const context = useContext(AppContext);
+export function useUsersContext() {
+  const context = useContext(UsersContext);
 
   if (!context) {
-    throw new Error(`Used outside of "AppContextProvider"`);
+    throw new Error(`Used outside of "UsersContextProvider"`);
   }
 
   return context;

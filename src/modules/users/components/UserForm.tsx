@@ -19,7 +19,7 @@ import {
   Web,
   ArrowBack,
 } from "@material-ui/icons";
-import { User, UserFormValues } from "../typings";
+import { User, UserFormValues } from "../../../typings";
 import { UserFormCard } from "./UserFormCard";
 import { UserFormField } from "./UserFormField";
 
@@ -46,6 +46,7 @@ export function UserForm({
     >
       {({ isSubmitting }) => (
         <Box
+          data-testid="users-form"
           height="100%"
           width="100%"
           display="flex"
@@ -67,6 +68,7 @@ export function UserForm({
                       <Button
                         variant="outlined"
                         color="default"
+                        data-testid="users-deleteButton"
                         disabled={isSubmitting || isDeleting}
                         onClick={() => onDelete(user)}
                       >

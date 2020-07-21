@@ -1,9 +1,9 @@
 import React from "react";
-import { useAppContext } from "../AppContext";
+import { useUsersContext } from "../UsersContex";
 import { UserForm } from "../components/UserForm";
 
 export function UserCreatePage() {
-  const { createUser } = useAppContext();
+  const { createUser } = useUsersContext();
 
   return <UserForm title="Create User" onSubmit={createUser} />;
 }

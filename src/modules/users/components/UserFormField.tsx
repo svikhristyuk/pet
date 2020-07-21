@@ -26,6 +26,7 @@ export function UserFormField({ icon: Icon, name, ...props }: UserFormField) {
         fullWidth
         value={value}
         disabled={isSubmitting}
+        id={name}
         {...props}
         {...restTextFieldProps}
       />
